@@ -6,6 +6,49 @@ services:
       - "8000:8000"
     volumes:
       - ./service:/service
-
+    environment:
+      - DB_HOST=db
+      - DB_NAME=email_sender_db
+      - DB_USER=bulat
+      - DB_PASS=bulat54252
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=bulat
+      - POSTGRES_PASSWORD=bulat54252
+      - POSTGRES_DB=email_sender_db
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - email_sender_db-data:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:8.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "bulatvaliullin0@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "bulat54252"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - postgres
+
+volumes:
+  email_sender_db-data:
+  pgadmin-data:
+
+networks:
+  postgres:
+    driver: bridge
