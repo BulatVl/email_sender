@@ -34,8 +34,8 @@ services:
     container_name: pgadmin_container
     image: dpage/pgadmin4:8.2
     environment:
-      PGADMIN_DEFAULT_EMAIL: "bulatvaliullin0@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "bulat54252"
+      PGADMIN_DEFAULT_EMAIL: "********0@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "******"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
