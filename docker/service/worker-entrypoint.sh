@@ -5,5 +5,4 @@ do
     echo "Waiting for server volume..."
 done
 
-# run a worker :)
-celery -A service worker --loglevel=info --concurrency 1 -E
+celery -A service worker --uid=nobody --gid=nogroup --loglevel=info --concurrency 1 -E
