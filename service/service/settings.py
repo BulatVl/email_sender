@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from datetime import timedelta
+# import tasks
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -202,6 +204,22 @@ SIMPLE_JWT = {
 
 CELERY_BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("RESULT_BACKEND", "redis://localhost:6379/0")
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+
+CELERY_IMPORTS = [
+        'service.tasks',
+        'users.tasks',
+                  ]
+
+CELERY_BEAT_SCHEDULE = {
+    'sample_task': {
+        'task': 'users.tasks.sample_task',
+        'schedule': timedelta(seconds=5),
+    },
+}
 
 LOGGING = {
     'version': 1,

@@ -1,6 +1,6 @@
 services:
   nginx:
-    restart: always
+    restart: unless-stopped
     image: nginx:1.23-alpine
     ports:
       - 80:80
@@ -73,6 +73,26 @@ services:
       context: .
       dockerfile: ./docker/service/Dockerfile
     entrypoint: /app/docker/service/worker-entrypoint.sh
+    volumes:
+      - static_volume:/app/service/django_static
+    environment:
+      - DEBUG=True
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DB_HOST=db
+      - DB_NAME=email_sender_db
+      - DB_USER=bulat
+      - DB_PASS=bulat54252
+    depends_on:
+      - server
+      - redis
+
+  beat:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/service/Dockerfile
+    entrypoint: /app/docker/service/beat-entrypoint.sh
     volumes:
       - static_volume:/app/service/django_static
     environment:

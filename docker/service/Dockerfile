@@ -14,3 +14,4 @@ COPY ./docker /app/docker
 
 RUN chmod +x /app/docker/service/server-entrypoint.sh
 RUN chmod +x /app/docker/service/worker-entrypoint.sh
+RUN chmod +x /app/docker/service/beat-entrypoint.sh

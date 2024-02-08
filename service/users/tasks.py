@@ -2,6 +2,8 @@ from celery import shared_task
 from django.conf import settings
 from django.core.mail import get_connection
 
+from service.celery import app
+
 
 @shared_task()
 def async_send_messages_with_smtp(email_messages):
@@ -11,8 +13,6 @@ def async_send_messages_with_smtp(email_messages):
     with conn._lock:
         new_conn_created = conn.open()
         if not conn.connection or new_conn_created is None:
-            # We failed silently on open().
-            # Trying to send would be pointless.
             return 0
         num_sent = 0
         for message in email_messages:
@@ -22,3 +22,8 @@ def async_send_messages_with_smtp(email_messages):
         if new_conn_created:
             conn.close()
     return num_sent
+
+
+@app.task()
+def sample_task():
+    print('Test123')
