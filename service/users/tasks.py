@@ -1,6 +1,5 @@
 import requests
 from celery import shared_task
-from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import get_connection, EmailMessage
 
