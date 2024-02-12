@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'users',
+    'users.apps.UsersConfig',
 
     'django.contrib.sites',
     'allauth',
@@ -215,12 +215,12 @@ CELERY_IMPORTS = [
         'users.tasks',
                   ]
 
-CELERY_BEAT_SCHEDULE = {
-    'sample_task': {
-        'task': 'users.tasks.sample_task',
-        'schedule': timedelta(seconds=50),
-    },
-}
+# CELERY_BEAT_SCHEDULE = {
+#     'sample_task': {
+#         'task': 'users.tasks.periodic_task',
+#         'schedule': timedelta(seconds=50),
+#     },
+# }
 
 LOGGING = {
     'version': 1,

@@ -28,8 +28,8 @@ def async_send_messages_with_smtp(email_messages):
 
 
 @app.task()
-def sample_task():
-    users = CustomUser.objects.all()
+def periodic_task():
+    users = CustomUser.objects.filter(email_verified=True)
     for user in users:
         gmail = user.email
         payload = {'lat': user.lat, 'lon': user.lon, 'appid': '9b7ed7e896b027f1071a31769bbbefa9'}
