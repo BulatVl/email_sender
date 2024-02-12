@@ -1,8 +1,12 @@
+import requests
 from celery import shared_task
+from celery.schedules import crontab
 from django.conf import settings
-from django.core.mail import get_connection
+from django.core.mail import get_connection, EmailMessage
 
 from service.celery import app
+
+from .models import CustomUser
 
 
 @shared_task()
@@ -26,4 +30,17 @@ def async_send_messages_with_smtp(email_messages):
 
 @app.task()
 def sample_task():
-    print('Test123')
+    users = CustomUser.objects.all()
+    for user in users:
+        gmail = user.email
+        payload = {'lat': user.lat, 'lon': user.lon, 'appid': '9b7ed7e896b027f1071a31769bbbefa9'}
+        r = requests.get('https://api.openweathermap.org/data/2.5/weather', params=payload)
+        text = 'Temperature: ' + str(r.json()['main']['temp'] - 273.15) + '\n' + 'Weather: ' + r.json()['weather'][0]['description']
+        print(payload)
+        email = EmailMessage(
+            'Title',
+            text,
+            'a@a.com',
+            [gmail, ],
+        )
+        email.send(fail_silently=False)

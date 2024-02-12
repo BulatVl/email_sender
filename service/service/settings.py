@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+MEDIA_URL = '/media/'
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "django_static"
 
@@ -205,19 +208,20 @@ SIMPLE_JWT = {
 CELERY_BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("RESULT_BACKEND", "redis://localhost:6379/0")
 
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
 CELERY_IMPORTS = [
-        'service.tasks',
         'users.tasks',
                   ]
 
 CELERY_BEAT_SCHEDULE = {
     'sample_task': {
         'task': 'users.tasks.sample_task',
-        'schedule': timedelta(seconds=5),
+        'schedule': timedelta(seconds=50),
     },
 }
 

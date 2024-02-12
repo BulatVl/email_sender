@@ -14,29 +14,3 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     #permission_classes = (IsAuthenticated, )
 
-    def perform_update(self, serializer):
-        try:
-            with transaction.atomic():
-                instance = serializer.save()
-                instance.save()
-                email = EmailMessage(
-                    'Title',
-                    'Hello',
-                    'a@a.com',
-                    ['bulatvaliullin0@gmail.com',],
-                )
-                email.send(fail_silently=False)
-        except Exception as e:
-            raise APIException(e)
-
-    # def perform_create(self, serializer):
-    #     try:
-    #         with transaction.atomic():
-    #             instance = serializer.save()
-    #             instance.save()
-    #
-    #             job_params = {'db_id': instance.id}
-    #
-    #             transaction.on_commit(lambda: task_execute.delay(job_params))
-    #     except Exception as e:
-    #         raise APIException(e)

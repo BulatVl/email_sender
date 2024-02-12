@@ -8,3 +8,5 @@ class CustomUser(AbstractUser):
     telegram_verified = models.BooleanField(default=False)
     phone = models.CharField(max_length=15)
     phone_verified = models.BooleanField(default=False)
+    lat = models.FloatField(null=True, blank=True)
+    lon = models.FloatField(null=True, blank=True)

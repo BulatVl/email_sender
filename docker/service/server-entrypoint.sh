@@ -6,6 +6,12 @@ do
 done
 
 
+until python manage.py makemigrations
+do
+    echo "Waiting for db to be ready..."
+done
+
+
 until python manage.py migrate
 do
     echo "Waiting for db to be ready..."
