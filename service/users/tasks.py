@@ -34,8 +34,8 @@ def periodic_task():
         gmail = user.email
         payload = {'lat': user.lat, 'lon': user.lon, 'appid': '9b7ed7e896b027f1071a31769bbbefa9'}
         r = requests.get('https://api.openweathermap.org/data/2.5/weather', params=payload)
+        print(r.json(), payload)
         text = 'Temperature: ' + str(r.json()['main']['temp'] - 273.15) + '\n' + 'Weather: ' + r.json()['weather'][0]['description']
-        print(payload)
         email = EmailMessage(
             'Title',
             text,

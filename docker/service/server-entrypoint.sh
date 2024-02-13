@@ -6,16 +6,19 @@ do
 done
 
 
-until python manage.py makemigrations
-do
-    echo "Waiting for db to be ready..."
-done
+#echo 'Waiting for postgres...'
+#
+#while ! nc -z $DB_HOSTNAME $DB_PORT; do
+#    sleep 0.1
+#done
+#
+#echo 'PostgreSQL started'
 
 
-until python manage.py migrate
-do
-    echo "Waiting for db to be ready..."
-done
+python manage.py makemigrations
+
+
+python manage.py migrate
 
 
 python manage.py collectstatic --noinput

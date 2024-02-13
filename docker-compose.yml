@@ -1,12 +1,14 @@
 services:
   nginx:
-    restart: unless-stopped
+    restart: always
     image: nginx:1.23-alpine
     ports:
       - 80:80
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_volume:/app/service/django_static
+    depends_on:
+      - server
 
   server:
     restart: unless-stopped
@@ -30,6 +32,7 @@ services:
       sh -c "python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:16-alpine
@@ -58,7 +61,7 @@ services:
       - "5050:81"
     restart: unless-stopped
     networks:
-      - postgres
+      - db
 
   redis:
     restart: unless-stopped
@@ -84,6 +87,7 @@ services:
       - DB_USER=bulat
       - DB_PASS=bulat54252
     depends_on:
+      - db
       - server
       - redis
 
@@ -104,6 +108,7 @@ services:
       - DB_USER=bulat
       - DB_PASS=bulat54252
     depends_on:
+      - db
       - server
       - redis
 
@@ -115,6 +120,7 @@ services:
     ports:
       - 5556:5555
     depends_on:
+      - db
       - server
       - worker
       - redis
@@ -125,5 +131,5 @@ volumes:
   static_volume:
 
 networks:
-  postgres:
+  db:
     driver: bridge

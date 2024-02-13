@@ -215,22 +215,22 @@ CELERY_IMPORTS = [
         'users.tasks',
                   ]
 
-# CELERY_BEAT_SCHEDULE = {
-#     'sample_task': {
-#         'task': 'users.tasks.periodic_task',
-#         'schedule': timedelta(seconds=50),
-#     },
-# }
-
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {'class': 'logging.StreamHandler',},
+CELERY_BEAT_SCHEDULE = {
+    'sample_task': {
+        'task': 'users.tasks.periodic_task',
+        'schedule': timedelta(seconds=30),
     },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-        },
-    }
 }
+
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {'class': 'logging.StreamHandler',},
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     }
+# }

@@ -8,4 +8,4 @@ django-filter
 phonenumbers
 celery[redis]==5.3.5
 flower==2.0.1
-django-celery-beat
+#django-celery-beat
