@@ -12,5 +12,3 @@ from .models import CustomUser
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-date_joined')
     serializer_class = CustomUserSerializer
-    #permission_classes = (IsAuthenticated, )
-

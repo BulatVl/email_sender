@@ -137,6 +137,17 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'shopping_list.api.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour',
+    },
 }
 
 REST_AUTH = {
@@ -218,7 +229,7 @@ CELERY_IMPORTS = [
 CELERY_BEAT_SCHEDULE = {
     'sample_task': {
         'task': 'users.tasks.periodic_task',
-        'schedule': timedelta(seconds=30),
+        'schedule': timedelta(seconds=12330),
     },
 }
 
